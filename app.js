@@ -3,9 +3,14 @@ const blockWidth = 100;
 const blockHeight = 20;
 const userStart = [230, 10];
 const boardWidth = 560;
+const ballDiameter = 20;
 let currentPosition = userStart;
 const ballStart = [270, 40];
+const boardHeight = 300;
 let ballCurrentPosition = ballStart;
+let timerId;
+let xDirection = 2;
+let yDirection = 2;
 
 // create Block class
 class Block{
@@ -62,6 +67,12 @@ function drawUser(){
     user.style.bottom = currentPosition[1] + 'px';
 }
 
+// draw the ball
+function drawBall(){
+    ball.style.left = ballCurrentPosition[0] + 'px';
+    ball.style.bottom = ballCurrentPosition[1] + 'px';
+}
+
 // move user
 function moveUser(e){
     switch(e.key){
@@ -86,6 +97,45 @@ document.addEventListener('keydown', moveUser);
 
 const ball = document.createElement('div');
 ball.classList.add('ball');
-ball.style.left = ballCurrentPosition[0] + 'px';
-ball.style.bottom = ballCurrentPosition[1] + 'px';
+drawBall();
 grid.appendChild(ball);
+
+// move ball
+function moveBall(){
+    ballCurrentPosition[0] += xDirection;
+    ballCurrentPosition[1] += yDirection;
+    drawBall();
+    checkForCollisions();
+}
+
+timerId = setInterval(moveBall, 30);
+
+// check for collisions
+function checkForCollisions(){
+    // check for wall collisions
+    if(ballCurrentPosition[0] <= boardWidth - ballDiameter){
+        changeDirection;
+    }
+}
+
+// this function is gonna ask for all possible directions in the moment the collision occurs
+// I would have asked for one of the four walls instead, but I guess the outcome is the same 
+function changeDirection(){
+    if(xDirection === 2 && yDirection === 2){
+        yDirection = -2;
+        return;
+    }
+    if(xDirection === 2 && yDirection === -2){
+        xDirection = 2;
+        return;
+    }
+    if(xDirection === -2 && yDirection === -2){
+        yDirection = 2;
+        return;
+    }
+    if(xDirection === -2 && yDirection === 2){
+        xDirection = 2;
+        return;
+    }
+
+}
