@@ -113,20 +113,24 @@ timerId = setInterval(moveBall, 30);
 // check for collisions
 function checkForCollisions(){
     // check for wall collisions
-    if(ballCurrentPosition[0] <= boardWidth - ballDiameter){
-        changeDirection;
-    }
+    if(
+        ballCurrentPosition[0] >= boardWidth - ballDiameter || 
+        ballCurrentPosition[1] >= boardHeight - ballDiameter        
+        ){
+            changeDirection();
+        }
 }
 
 // this function is gonna ask for all possible directions in the moment the collision occurs
 // I would have asked for one of the four walls instead, but I guess the outcome is the same 
 function changeDirection(){
+
     if(xDirection === 2 && yDirection === 2){
         yDirection = -2;
         return;
     }
     if(xDirection === 2 && yDirection === -2){
-        xDirection = 2;
+        xDirection = -2;
         return;
     }
     if(xDirection === -2 && yDirection === -2){
