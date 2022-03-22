@@ -1,1 +1,3 @@
 # js-breakout
+
+Yet another tutorial practice project. Looks to me like it could use some improvement, though at this point I see so many possibilities to do interesting projects, I am not sure I will come back to it. Time will tell...
