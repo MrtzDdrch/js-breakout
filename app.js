@@ -5,7 +5,7 @@ const userStart = [230, 10];
 const boardWidth = 560;
 const ballDiameter = 20;
 let currentPosition = userStart;
-const ballStart = [100, 40];
+const ballStart = [270, 40];
 const boardHeight = 300;
 let ballCurrentPosition = ballStart;
 let timerId;
@@ -119,6 +119,13 @@ function checkForCollisions(){
             changeDirection();
             score++;
             scoreDisplay.innerHTML = score;
+
+            // check for win
+            if(blocks.length === 0){
+                scoreDisplay.innerHTML = "You win!";
+                clearInterval(timerId);
+                document.removeEventListener('keydown', moveUser);
+            }
         }
     }
     // check for wall collisions
@@ -131,10 +138,10 @@ function checkForCollisions(){
         }
     // check for user collisions
     if(
-        (ballCurrentPosition[0] > currentPosition[0]) && (ballCurrentPosition[1] < currentPosition[1])
+        (ballCurrentPosition[0] > currentPosition[0]) && (ballCurrentPosition[1] < currentPosition[1] + blockWidth) &&
+        (ballCurrentPosition[1] > currentPosition[1] && ballCurrentPosition[1] < currentPosition[1] + blockHeight)
     ){
-
-        alert('hit');
+        changeDirection();
 
     }
 
@@ -175,4 +182,4 @@ function drawBall(){
     ball.style.bottom = ballCurrentPosition[1] + 'px';
 }
 
-timerId = setInterval(moveBall, 20);
+timerId = setInterval(moveBall, 10);
