@@ -5,14 +5,14 @@ const userStart = [230, 10];
 const boardWidth = 560;
 const ballDiameter = 20;
 let currentPosition = userStart;
-const ballStart = [270, 40];
+const ballStart = [100, 40];
 const boardHeight = 300;
 let ballCurrentPosition = ballStart;
 let timerId;
-let xDirection = -2;
-let yDirection = 2;
+let xDirection = -1;
+let yDirection = 1;
 const scoreDisplay = document.querySelector('#score');
-
+let score = 0;
 // create Block class
 class Block{
     constructor(X, Y){
@@ -113,12 +113,12 @@ function checkForCollisions(){
             (ballCurrentPosition[0] > blocks[i].bottomLeft[0] && ballCurrentPosition[0] < blocks[i].bottomRight[0]) &&
             (ballCurrentPosition[1] + ballDiameter > blocks[i].bottomLeft[1] && ballCurrentPosition[1] < blocks[i].topLeft[1])
         ){
-            console.log(blocks[i]);
-            // blocks[i].classList.remove('block');
-            // blocks.splice(i, 1);
-            // changeDirection();
+            const allBlocks = Array.from(document.querySelectorAll('.block'));
+            allBlocks[i].classList.remove('block');
+            blocks.splice(i, 1);
+            changeDirection();
             score++;
-
+            scoreDisplay.innerHTML = score;
         }
     }
     // check for wall collisions
@@ -129,6 +129,14 @@ function checkForCollisions(){
         ){
             changeDirection();
         }
+    // check for user collisions
+    if(
+        (ballCurrentPosition[0] > currentPosition[0]) && (ballCurrentPosition[1] < currentPosition[1])
+    ){
+
+        alert('hit');
+
+    }
 
     // check for game over
     if(ballCurrentPosition[1] <= 0){
@@ -143,20 +151,20 @@ function checkForCollisions(){
 // I would have asked for one of the four walls instead, but I guess the outcome is the same 
 function changeDirection(){
 
-    if(xDirection === 2 && yDirection === 2){
-        yDirection = -2;
+    if(xDirection === 1 && yDirection === 1){
+        yDirection = -1;
         return;
     }
-    if(xDirection === 2 && yDirection === -2){
-        xDirection = -2;
+    if(xDirection === 1 && yDirection === -1){
+        xDirection = -1;
         return;
     }
-    if(xDirection === -2 && yDirection === 2){
-        xDirection = 2;
+    if(xDirection === -1 && yDirection === 1){
+        xDirection = 1;
         return;
     }
-    if(xDirection === -2 && yDirection === -2){
-        yDirection = 2;
+    if(xDirection === -1 && yDirection === -1){
+        yDirection = 1;
         return;
     }
 }
